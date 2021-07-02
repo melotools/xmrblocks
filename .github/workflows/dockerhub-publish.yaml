@@ -5,7 +5,7 @@ on:
     branches: [ master, gitlab-actions ]
 
 env:
-  IMAGE_NAME: melotools/xmrblocks
+  IMAGE_NAME: melotools/monero-explorer
 
 
 jobs:
