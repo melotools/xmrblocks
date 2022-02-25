@@ -36,7 +36,7 @@ RUN apt-get update -qq && apt-get -yqq --no-install-recommends install \
     && cd /usr/src/gtest || exit 1 \
     && cmake . > /dev/null \
     && make > /dev/null \
-    && mv libg* /usr/lib/ \
+    #&& mv libg* /usr/lib/ \
     && cd /data || exit 1 \
     && echo "\e[32mbuilding: su-exec\e[39m" \
     && git clone --branch ${SUEXEC_VERSION} --single-branch --depth 1 https://github.com/ncopa/su-exec.git su-exec.git > /dev/null \
@@ -109,7 +109,7 @@ RUN apt-get purge -yqq \
         doxygen \
         graphviz \
         libpcsclite-dev \
-        libgtest-dev \
+        #libgtest-dev \
         libcurl4-openssl-dev \
         git > /dev/null \
     && apt-get autoremove --purge -yqq > /dev/null \
