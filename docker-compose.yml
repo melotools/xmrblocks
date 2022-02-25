@@ -2,7 +2,7 @@ version: '2'
 
 services:
   monero-explorer:
-    # image: melotools/monero-explorer
+    # image: rinocommunity/monero-explorer
     build:
       context: .
       dockerfile: local.Dockerfile
