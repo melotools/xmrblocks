@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 env:
-  IMAGE_NAME: melotools/monero-explorer
+  IMAGE_NAME: rinocommunity/monero-explorer
 
 
 jobs:
