@@ -69,9 +69,7 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
 FROM index.docker.io/rinocommunity/monero-explorer:builder_monero as builder
 WORKDIR /data
 
-ARG PROJECT_URL=https://github.com/moneroexamples/onion-monero-blockchain-explorer.git
 # 'master' or 'devel'
-ARG BRANCH=master
 
 # ENV CC /usr/bin/clang
 # ENV CXX /usr/bin/clang++
@@ -79,8 +77,8 @@ ARG BRANCH=master
 
 COPY patch.diff /data
 
-RUN echo "\e[32mcloning: $PROJECT_URL on branch: devel\e[39m" \
-    && git clone --branch master --single-branch --depth 1 ${PROJECT_URL} monero-explorer.git > /dev/null \
+RUN echo "\e[32mcloning: https://github.com/moneroexamples/onion-monero-blockchain-explorer.git on branch: devel\e[39m" \
+    && git clone --branch master --single-branch --depth 1 https://github.com/moneroexamples/onion-monero-blockchain-explorer.git monero-explorer.git > /dev/null \
     && cd monero-explorer.git || exit 1  \
     && git checkout devel > /dev/null \
     && echo "\e[32mapplying  patch\e[39m" \
