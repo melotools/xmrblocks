@@ -78,7 +78,7 @@ WORKDIR /data
 COPY patch.diff /data
 
 RUN echo "\e[32mcloning: https://github.com/moneroexamples/onion-monero-blockchain-explorer.git on branch: devel\e[39m" \
-    && git clone --branch master --single-branch --depth 1 https://github.com/moneroexamples/onion-monero-blockchain-explorer.git monero-explorer.git > /dev/null \
+    && git clone --branch devel --single-branch --depth 1 https://github.com/moneroexamples/onion-monero-blockchain-explorer.git monero-explorer.git > /dev/null \
     && cd monero-explorer.git || exit 1  \
     && git checkout devel > /dev/null \
     && echo "\e[32mapplying  patch\e[39m" \
