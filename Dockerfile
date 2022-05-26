@@ -36,7 +36,7 @@ RUN apt-get update -qq && apt-get -yqq --no-install-recommends install \
     && cd /usr/src/gtest || exit 1 \
     && cmake . > /dev/null \
     && make > /dev/null \
-    && mv libg* /usr/lib/ \
+    # && mv libg* /usr/lib/ \
     && cd /data || exit 1 \
     && echo "\e[32mbuilding: su-exec\e[39m" \
     && git clone --branch ${SUEXEC_VERSION} --single-branch --depth 1 https://github.com/ncopa/su-exec.git su-exec.git > /dev/null \
@@ -47,7 +47,7 @@ RUN apt-get update -qq && apt-get -yqq --no-install-recommends install \
     && cd /data || exit 1 \
     && rm -rf /data/su-exec.git
 
-FROM index.docker.io/xmrto/monero-explorer:dependencies1 as builder_monero
+FROM index.docker.io/rinocommunity/monero-explorer:dependencies1 as builder_monero
 WORKDIR /data
 # BUILD_PATH:
 # Using 'USE_SINGLE_BUILDDIR=1 make' creates a unified build dir (/monero.git/build/release/bin)
@@ -66,7 +66,7 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
     && echo "\e[32mbuilding monero\e[39m" \
     && USE_SINGLE_BUILDDIR=1 make > /dev/null
 
-FROM index.docker.io/xmrto/monero-explorer:builder_monero as builder
+FROM index.docker.io/rinocommunity/monero-explorer:builder_monero as builder
 WORKDIR /data
 
 ARG PROJECT_URL=https://github.com/moneroexamples/onion-monero-blockchain-explorer.git
@@ -109,7 +109,7 @@ RUN apt-get purge -yqq \
         doxygen \
         graphviz \
         libpcsclite-dev \
-        libgtest-dev \
+        # libgtest-dev \
         libcurl4-openssl-dev \
         git > /dev/null \
     && apt-get autoremove --purge -yqq > /dev/null \
