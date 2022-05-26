@@ -68,6 +68,8 @@ jobs:
           --cache-from $IMAGE_NAME:dependencies1
           --cache-from $IMAGE_NAME:builder_monero_master
           --cache-from $IMAGE_NAME:builder_devel
+          --build-arg BRANCH=master
+          --build-arg BUILD_BRANCH=${{ steps.get_latest_monero_master_commit_hash.outputs.latest_commit_hash }}
           -f ./Dockerfile
           -t $IMAGE_NAME:builder_devel .
 
@@ -83,6 +85,8 @@ jobs:
           --cache-from $IMAGE_NAME:builder_monero_master
           --cache-from $IMAGE_NAME:builder_devel
           --cache-from $IMAGE_NAME
+          --build-arg BRANCH=master
+          --build-arg BUILD_BRANCH=${{ steps.get_latest_monero_master_commit_hash.outputs.latest_commit_hash }}
           -f ./Dockerfile
           -t $IMAGE_NAME:most_recent_hash .
 
