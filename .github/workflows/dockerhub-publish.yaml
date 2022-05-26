@@ -49,7 +49,7 @@ jobs:
       - name: Build updated "builder_monero" if necessary
         run: docker build --pull
           --target builder_monero
-          --cache-from $IMAGE_NAME:builder_monero
+          --cache-from $IMAGE_NAME:dependencies1
           --cache-from $IMAGE_NAME:builder_monero
           --build-arg BRANCH=${{ steps.get_latest_monero_tag.outputs.latest_tag }}
           --build-arg BUILD_BRANCH=${{ steps.get_latest_monero_tag.outputs.latest_tag }}
@@ -75,14 +75,14 @@ jobs:
         run: docker push $IMAGE_NAME:builder
 
       - name: Pull final image if it exists
-        run: docker pull $IMAGE_NAME || true
+        run: docker pull $IMAGE_NAME:most_recent_tag || true
 
       - name: Build updated final image if necessary
         run: docker build --pull
           --cache-from $IMAGE_NAME:dependencies1
           --cache-from $IMAGE_NAME:builder_monero
           --cache-from $IMAGE_NAME:builder
-          --cache-from $IMAGE_NAME
+          --cache-from $IMAGE_NAME:most_recent_tag
           -f ./Dockerfile
           -t $IMAGE_NAME:most_recent_tag .
 
