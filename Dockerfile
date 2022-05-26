@@ -66,7 +66,7 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
     && echo "\e[32mbuilding monero\e[39m" \
     && USE_SINGLE_BUILDDIR=1 make > /dev/null
 
-FROM index.docker.io/rinocommunity/monero-explorer:builder_monero as builder
+FROM index.docker.io/rinocommunity/monero-explorer:builder_monero_master as builder
 WORKDIR /data
 
 # 'master' or 'devel'
@@ -81,10 +81,10 @@ RUN echo "\e[32mcloning: https://github.com/moneroexamples/onion-monero-blockcha
     && git clone --branch devel --single-branch --depth 1 https://github.com/moneroexamples/onion-monero-blockchain-explorer.git monero-explorer.git > /dev/null \
     && cd monero-explorer.git || exit 1  \
     && git checkout devel > /dev/null \
-    && echo "\e[32mapplying  patch\e[39m" \
-    && git apply --stat ../patch.diff \
-    && git apply --check ../patch.diff \
-    && git apply  ../patch.diff \
+    #&& echo "\e[32mapplying  patch\e[39m" \
+    #&& git apply --stat ../patch.diff \
+    #&& git apply --check ../patch.diff \
+    #&& git apply  ../patch.diff \
     && mkdir build && cd build || exit 1 \
     && cmake -DMONERO_DIR=/data/monero.git .. > /dev/null \
     && make > /dev/null \
