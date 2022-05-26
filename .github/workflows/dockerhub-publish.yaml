@@ -43,36 +43,36 @@ jobs:
       - name: Push "dependencies1"
         run: docker push $IMAGE_NAME:dependencies1
 
-      - name: Pull "builder_monero" if it exists
-        run: docker pull $IMAGE_NAME:builder_monero || true
+      - name: Pull "builder_monero_master" if it exists
+        run: docker pull $IMAGE_NAME:builder_monero_master || true
 
-      - name: Build updated "builder_monero" if necessary
+      - name: Build updated "builder_monero_master" if necessary
         run: docker build --pull
           --target builder_monero
-          --cache-from $IMAGE_NAME:builder_monero
-          --cache-from $IMAGE_NAME:builder_monero
+          --cache-from $IMAGE_NAME:dependencies1
+          --cache-from $IMAGE_NAME:builder_monero_master
           --build-arg BRANCH=master
           --build-arg BUILD_BRANCH=${{ steps.get_latest_monero_master_commit_hash.outputs.latest_commit_hash }}
           -f ./Dockerfile
-          -t $IMAGE_NAME:builder_monero .
+          -t $IMAGE_NAME:builder_monero_master .
 
-      - name: Push "builder_monero"
-        run: docker push $IMAGE_NAME:builder_monero
+      - name: Push "builder_monero_master"
+        run: docker push $IMAGE_NAME:builder_monero_master
 
-      - name: Pull "builder" if it exists
-        run: docker pull $IMAGE_NAME:builder || true
+      - name: Pull "builder_devel" if it exists
+        run: docker pull $IMAGE_NAME:builder_devel || true
 
-      - name: Build updated "builder" if necessary
+      - name: Build updated "builder_devel" if necessary
         run: docker build --pull
           --target builder
           --cache-from $IMAGE_NAME:dependencies1
-          --cache-from $IMAGE_NAME:builder_monero
-          --cache-from $IMAGE_NAME:builder
+          --cache-from $IMAGE_NAME:builder_monero_master
+          --cache-from $IMAGE_NAME:builder_devel
           -f ./Dockerfile
-          -t $IMAGE_NAME:builder .
+          -t $IMAGE_NAME:builder_devel .
 
-      - name: Push "builder"
-        run: docker push $IMAGE_NAME:builder
+      - name: Push "builder_devel"
+        run: docker push $IMAGE_NAME:builder_devel
 
       - name: Pull final image if it exists
         run: docker pull $IMAGE_NAME || true
@@ -80,8 +80,8 @@ jobs:
       - name: Build updated final image if necessary
         run: docker build --pull
           --cache-from $IMAGE_NAME:dependencies1
-          --cache-from $IMAGE_NAME:builder_monero
-          --cache-from $IMAGE_NAME:builder
+          --cache-from $IMAGE_NAME:builder_monero_master
+          --cache-from $IMAGE_NAME:builder_devel
           --cache-from $IMAGE_NAME
           -f ./Dockerfile
           -t $IMAGE_NAME:most_recent_hash .
